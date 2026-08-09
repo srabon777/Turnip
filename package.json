@@ -1,0 +1,19 @@
+{
+  "name": "turnip",
+  "version": "1.0.0",
+  "description": "Personal Facebook Reels analytics + scheduling dashboard — VidIQ-style for your own Pages",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "init-db": "node src/db.js --seed"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "multer": "^2.0.1",
+    "cookie-parser": "^1.4.6",
+    "node-cron": "^3.0.3"
+  }
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Turnip — Facebook Reels Studio</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">🥕</span>
+    <strong>Turnip</strong>
+    <span class="tag">Reels Studio</span>
+    <span class="pill demo-pill" id="demoPill" hidden>DEMO DATA</span>
+  </div>
+  <nav class="topnav">
+    <button id="loginBtn" class="btn primary">Connect Facebook</button>
+    <button id="refreshPagesBtn" class="btn ghost">Refresh pages</button>
+    <span id="authStatus" class="auth-status"></span>
+  </nav>
+</header>
+
+<div id="reauthBanner" class="banner warn" hidden>
+  <strong>⚠️ Token expired or invalid.</strong>
+  <span id="reauthMsg">Please reconnect your Facebook account.</span>
+  <a href="/api/auth/login" class="btn small primary">Re-authenticate</a>
+</div>
+
+<main class="layout">
+  <aside class="sidebar">
+    <div class="card">
+      <h3>Your Pages</h3>
+      <div id="pagesList" class="pages-list"></div>
+      <p class="muted small" style="margin-top:10px">Personal use only — 2 Pages max. Dev-mode access is sufficient; no App Review needed.</p>
+    </div>
+
+    <div class="card" id="composerCard">
+      <h3>📤 Schedule a Reel</h3>
+      <form id="composerForm">
+        <label>Page
+          <select id="composerPage" required></select>
+        </label>
+        <label>Caption
+          <textarea id="composerCaption" rows="3" placeholder="Write your caption …" required></textarea>
+        </label>
+        <label>Video file
+          <input type="file" id="composerFile" accept="video/*">
+          <span class="muted small">Or paste a public file_url below (for API testing)</span>
+        </label>
+        <label>File URL (alternative)
+          <input type="url" id="composerUrl" placeholder="https://.../video.mp4">
+        </label>
+        <label>Scheduled time (optional — leave blank to publish now)
+          <input type="datetime-local" id="composerTime">
+          <span class="muted small">Must be ≥10 min in future, ≤75 days. Uses your Page's timezone.</span>
+        </label>
+        <button type="submit" class="btn primary full">Schedule / Publish</button>
+        <p id="composerMsg" class="muted small"></p>
+      </form>
+    </div>
+
+    <div class="card muted-card">
+      <h4>How syncing works</h4>
+      <p class="small">Insights are pulled <strong>daily at 02:30</strong> and on-demand via <em>Sync now</em>. Data is stored locally so you don't lose history when Meta's 30-day window expires.</p>
+      <p class="small">Tokens auto-refresh when &lt;7 days remain; if that fails you'll see a re-auth prompt here.</p>
+    </div>
+  </aside>
+
+  <section class="content">
+    <div id="pageHeader" class="page-header"></div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="card">
+      <div class="card-head">
+        <h3>Best time to post — from <em>your</em> history</h3>
+        <span class="muted small">Ranked by your own median views + engagement per hour-slot</span>
+      </div>
+      <div id="bestTime"></div>
+      <div id="heatmapWrap"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h3>Reels & Posts</h3>
+        <div class="row gap">
+          <button id="syncBtn" class="btn small">↻ Sync now</button>
+          <span id="syncMsg" class="muted small"></span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="table" id="reelsTable">
+          <thead>
+            <tr>
+              <th>Post</th>
+              <th>Created</th>
+              <th class="num">Views</th>
+              <th class="num">vs Avg</th>
+              <th class="num">Avg watch</th>
+              <th class="num">Reach</th>
+              <th class="num">Engagement</th>
+              <th class="num">Retention</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p id="reelsEmpty" class="muted" hidden>No posts yet — sync your Page or publish a Reel.</p>
+    </div>
+
+    <footer class="muted small" style="margin-top:24px">
+      Turnip is for <strong>personal use on your own Pages only</strong>. A future public/multi-user version would require <a href="https://developers.facebook.com/docs/app-review" target="_blank">Meta App Review</a> + Business Verification — do not attempt to bypass it.
+    </footer>
+  </section>
+</main>
+
+<div id="toast" class="toast" hidden></div>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>
